@@ -12,8 +12,10 @@ import { ptBR } from 'date-fns/locale';
 import { X } from 'lucide-react';
 
 interface NoteCardProps {
+  id: string;
   date: Date;
   content: string;
+  onNoteDeleted: (id: string) => void;
 }
 
 export function NoteCard(props: NoteCardProps) {
@@ -30,7 +32,9 @@ export function NoteCard(props: NoteCardProps) {
       </DialogTrigger>
 
       <DialogPortal>
-        <DialogContent className="z-10 fixed h-[60vh] overflow-hidden left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[640px] w-full bg-zinc-700 rounded-md flex flex-col outline-none">
+        <DialogOverlay className="fixed inset-0 bg-black/50" />
+
+        <DialogContent className="flex flex-col z-10 fixed overflow-hidden inset-0 md:inset-auto md:h-[60vh] md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:max-w-[640px] md:w-full md:rounded-md bg-zinc-700 outline-none">
           <DialogClose className="absolute right-0 top-0 bg-zinc-800 p-1.5 text-zinc-400 hover:text-zinc-100">
             <X className="size-5" />
           </DialogClose>
@@ -43,11 +47,10 @@ export function NoteCard(props: NoteCardProps) {
             </p>
           </div>
 
-          <button type="button" className="w-full bg-zinc-800 py-4 text-center text-sm text-zinc-300 outline-none font-medium group">
+          <button type="button" onClick={() => props.onNoteDeleted(props.id)} className="w-full bg-zinc-800 py-4 text-center text-sm text-zinc-300 outline-none font-medium group">
             Deseja <span className="text-red-400 group-hover:underline">apagar essa nota</span>?
           </button>
         </DialogContent>
-        <DialogOverlay className="fixed inset-0 bg-black/50" />
       </DialogPortal>      
     </DialogRoot>
   )
